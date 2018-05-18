@@ -8,6 +8,7 @@ name = "pypi"
 Flask = "*"
 Flask-Session = "*"
 SQLAlchemy = "*"
+flask-wtf = "*"
 
 [dev-packages]
 

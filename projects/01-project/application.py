@@ -6,6 +6,7 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+from forms import LoginForm
 import secrets
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ if not secrets.DATABASE_URL:
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["SECRET_KEY"] = "you-will-never-guess"
 Session(app)
 
 # Set up database
@@ -30,4 +32,5 @@ def index():
 
 @app.route("/login")
 def login():
-    return render_template("login.html")
+    form = LoginForm()
+    return render_template("login.html", form=form)
