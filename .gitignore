@@ -7,3 +7,4 @@ flask_session
 flask_session/
 
 secrets.py
+books.csv

@@ -1,6 +1,0 @@
-.vscode
-.vscode/
-flask_session
-flask_session/
-books.csv
-secrets.py
