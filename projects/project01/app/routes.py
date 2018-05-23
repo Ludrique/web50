@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user, login_required, logout_user
 
 from app import app, db
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, BookSearchForm
 from app.models import User
 
 @app.route("/")
@@ -35,7 +35,7 @@ def login():
             flash("Invalid username or password")
             return redirect(url_for("login"))
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for("index"))
+        return redirect(url_for("book_search"))
     return render_template("login.html", form=form)
 
 @app.route("/logout")
@@ -43,8 +43,13 @@ def logout():
     logout_user()
     return redirect(url_for("index"))
 
+@app.route("/book_search", methods=["GET", "POST"])
+@login_required
+def book_search():
+    form = BookSearchForm()
+    return render_template("book_search.html", form=form)
+
 # Helpers
 def handle_authenicated():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
-

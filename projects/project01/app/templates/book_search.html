@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Book Search
+{% endblock %}
+
+{% block body %}
+  <h2>Flask Book Database</h2>
+  <form action="" method="post">
+    {{ form.hidden_tag() }}
+
+  <p>
+    {{ form.search_query.label }}<br>
+    {{ form.search_query(size=64) }}<br>
+
+    {% for error in form.search_query.errors %}
+    <span style="color: red;">
+      [{{ error }}]
+    </span>
+    {% endfor %}
+  </p>
+
+  <p>{{ form.submit() }}</p>
+
+  </form>
+{% endblock %} 

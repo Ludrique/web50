@@ -28,3 +28,7 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError("Please use a different email address.")
+
+class BookSearchForm(FlaskForm):
+    search_query = StringField("Enter ISBN, Title, Author, or Published Year", validators=[DataRequired()])
+    submit = SubmitField("Search")
