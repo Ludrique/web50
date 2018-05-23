@@ -5,6 +5,8 @@ env/
 __pycache__
 flask_session
 flask_session/
+migrations
+migrations/
 
 secrets.py
 books.csv

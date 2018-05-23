@@ -27,7 +27,7 @@ class User(UserMixin, db.Model):
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    isbn = db.Column(db.Integer)
+    isbn = db.Column(db.String(128))
     title = db.Column(db.String(128))
     author = db.Column(db.String(128))
     pub_year = db.Column(db.String(64))
