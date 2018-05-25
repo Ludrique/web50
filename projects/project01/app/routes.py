@@ -1,10 +1,11 @@
 # Routes
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user, login_user, login_required, logout_user
+from sqlalchemy import or_
 
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, BookSearchForm
-from app.models import User
+from app.models import Book, Review, User
 
 @app.route("/")
 @app.route("/index")
@@ -47,9 +48,31 @@ def logout():
 @login_required
 def book_search():
     form = BookSearchForm()
+    if form.validate_on_submit():
+        item = form.search_query.data
+        books = search_books_for(item)
+        if books:
+            return render_template("book_search.html", form=form, books=books)
     return render_template("book_search.html", form=form)
+
+'''
+SELECT * FROM clients
+WHERE field1 LIKE '%Mary%'
+   OR field2 LIKE '%Mary%'
+   OR field3 LIKE '%Mary%'
+   OR field4 LIKE '%Mary%'
+'''
 
 # Helpers
 def handle_authenicated():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
+
+def search_books_for(item):
+    return Book.query.filter(or_(
+        Book.isbn.contains(item),
+        Book.author.contains(item),
+        Book.pub_year.contains(item),
+        Book.title.contains(item)
+        )
+    ).all()

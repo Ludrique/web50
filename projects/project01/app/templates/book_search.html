@@ -22,5 +22,17 @@
 
   <p>{{ form.submit() }}</p>
 
+  {% if books is defined %} 
+  <div>
+    {% for book in books%}
+    <ul>{{ book.author }} -- {{ book.title }} -- {{ book.pub_year}} -- {{ book.isbn }}</ul>
+    {% endfor %}
+  </div>
+  {% else %}
+    <span style="color: red;">
+      No items found.
+    </span>
+  {% endif %}
+
   </form>
 {% endblock %} 

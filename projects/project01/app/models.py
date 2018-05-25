@@ -33,8 +33,10 @@ class Book(db.Model):
     pub_year = db.Column(db.String(64))
     reviews = db.relationship("Review", backref="book", lazy="dynamic")
 
+'''
     def __repr__(self):
         return f"<Book {self.title}>"
+'''
 
 
 class Review(db.Model):
