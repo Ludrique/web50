@@ -55,13 +55,13 @@ def book_search():
             return render_template("book_search.html", form=form, books=books)
     return render_template("book_search.html", form=form)
 
-'''
-SELECT * FROM clients
-WHERE field1 LIKE '%Mary%'
-   OR field2 LIKE '%Mary%'
-   OR field3 LIKE '%Mary%'
-   OR field4 LIKE '%Mary%'
-'''
+@app.route("/book/<isbn>", methods=["GET"])
+@login_required
+def book_page(isbn):
+    book = Book.query.filter_by(isbn=isbn).first()
+    book_reviews = Review.query.filter_by(book_id=book.id)
+    return render_template("book_page.html", book=book, book_reviews=book_reviews)
+
 
 # Helpers
 def handle_authenicated():

@@ -21,9 +21,6 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def __repr__(self):
-        return f"<User {self.username}>"  
-
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -33,15 +30,10 @@ class Book(db.Model):
     pub_year = db.Column(db.String(64))
     reviews = db.relationship("Review", backref="book", lazy="dynamic")
 
-'''
-    def __repr__(self):
-        return f"<Book {self.title}>"
-'''
-
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String) 
+    body = db.Column(db.String)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     rating = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
