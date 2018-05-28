@@ -4,7 +4,7 @@ from flask_login import current_user, login_user, login_required, logout_user
 from sqlalchemy import or_
 
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, BookSearchForm
+from app.forms import LoginForm, RegistrationForm, BookSearchForm, ReviewSubmitForm
 from app.models import Book, Review, User
 
 @app.route("/")
@@ -55,12 +55,24 @@ def book_search():
             return render_template("book_search.html", form=form, books=books)
     return render_template("book_search.html", form=form)
 
-@app.route("/book/<isbn>", methods=["GET"])
+@app.route("/book/<isbn>", methods=["GET", "POST"])
 @login_required
 def book_page(isbn):
     book = Book.query.filter_by(isbn=isbn).first()
     book_reviews = Review.query.filter_by(book_id=book.id)
-    return render_template("book_page.html", book=book, book_reviews=book_reviews)
+    # if current user does not have a reivew
+    form = ReviewSubmitForm()
+    if form.validate_on_submit():
+        review = Review(body=form.review.data, author=current_user)
+        db.session.add(review)
+        db.session.commit()
+    book_reviews = Review.query.filter_by(book_id=book.id)
+    return render_template(
+        "book_page.html", 
+        book=book, 
+        book_reviews=book_reviews,
+        form=form
+    )
 
 
 # Helpers

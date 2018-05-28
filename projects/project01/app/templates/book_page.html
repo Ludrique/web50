@@ -17,8 +17,25 @@
     </h3>
   </div>
 
+  <div id="review submission">
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.review.label }}<br>
+        {{ form.review(cols=32, rows=4)}}<br>
+        {% for error in form.review.erros %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.submit() }}
+      </p>
+    </form>
+  </div>
+
   <div id="reviews">
-    {% for review in reviews%}
+    {{ book_reviews }}
+    {% for review in book_reviews %}
     <span>
       {{ review.body }}
     </span>
